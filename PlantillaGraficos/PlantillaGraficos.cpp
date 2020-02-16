@@ -60,28 +60,11 @@ void actualizar() {
 
 		posXTriangulo += compX;
 		posYTriangulo += compY;
-
-
 	}
+	
 	tiempoAnterior = tiempoActual;
 }
-void dibujarTriangulos() {
-	glPushMatrix();
 
-	glTranslatef(posXTriangulo, posYTriangulo, 0.0f);
-	glRotatef(angulo, 0.0f, 0.0f, 1.0f);
-	glScalef(0.4f, 0.7f, 0.7f);
-
-	glBegin(GL_TRIANGLES);
-	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(0.0f, -0.8f, 0.0f);
-	glVertex3f(-0.12f, -1.2f, 0.0f);
-	glVertex3f(0.12f, -1.2f, 0.0f);
-
-	glEnd();
-
-	glPopMatrix();
-}
 void dibujarCuadros() {
 	glBegin(GL_QUADS);
 
@@ -125,25 +108,24 @@ void dibujarLineas() {
 	glEnd();
 }
 
-
 void dibujar() {
 	glPushMatrix();
 
 	glTranslatef(posXTriangulo, posYTriangulo, 0.0f);
 	glRotatef(angulo, 0.0f, 0.0f, 1.0f);
-	glScalef(0.4f, 0.7f, 0.7f);
+	glScalef(0.4f, 0.6f, 0.7f);
 
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(0.0f, -0.8f, 0.0f);
-	glVertex3f(-0.12f, -1.2f, 0.0f);
-	glVertex3f(0.12f, -1.2f, 0.0f);
+	glVertex3f(0.0f, 0.15f, 0.0f);
+	glVertex3f(-0.15f, -0.15f, 0.0f);
+	glVertex3f(0.15f, -0.15f, 0.0f);
 
 	glEnd();
 
 	glPopMatrix();
-	dibujarCuadros();
 	dibujarLineas();
+	dibujarCuadros();
 }
 
 int main()
