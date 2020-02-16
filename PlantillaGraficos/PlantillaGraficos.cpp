@@ -68,7 +68,7 @@ void actualizar() {
 void dibujarCuadros() {
 	glBegin(GL_QUADS);
 
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(0.670588235, 0.670588235, 0.670588235);
 	glVertex3f(0.2f, -0.85f, 0.0f);
 	glVertex3f(-0.2f, -0.85f, 0.0f);
 	glVertex3f(-0.2f, -1.0f, 0.0f);
@@ -78,7 +78,7 @@ void dibujarCuadros() {
 
 	glBegin(GL_QUADS);
 
-	glColor3f(1.0, 1.0, 1.0);
+	glColor3f(0.670588235, 0.670588235, 0.670588235);
 	glVertex3f(0.1f, -0.65f, 0.0f);
 	glVertex3f(-0.1f, -0.65f, 0.0f);
 	glVertex3f(-0.1f, -0.85f, 0.0f);
@@ -167,6 +167,86 @@ void dibujarLineas() {
 	glEnd();
 }
 
+void dibujarEnemigos()
+{	//Linea de arriba
+	glPushMatrix();
+	glTranslatef(-0.8f, 0.8f, 0.0f);
+	glBegin(GL_TRIANGLES);
+	glColor3f(0.9294117647, 0.9725490196, 0.0235294117);
+
+	glVertex3f(0.0f, 0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.7f, 1.3f, 0.0f);
+	glBegin(GL_POLYGON);
+	glColor3f(0.04313725, 0.12549019, 0.95686274);
+
+	for (double i = 0; i < 360.0; i += 9.0)
+	{
+		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
+	}
+
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.55f, 0.9f, 0.0f);
+	glBegin(GL_QUADS);
+	glColor3f(0.9529411764, 0.5529411764, 0.0431372549);
+
+	glVertex3f(0.3f, -0.2f, 0.0f);
+	glVertex3f(0.1f, -0.2f, 0.0f);
+	glVertex3f(0.1f, 0.0f, 0.0f);
+	glVertex3f(0.3f, 0.0f, 0.0f);
+
+	glEnd();	
+	glPopMatrix();
+
+	//Linea de abajo
+	glPushMatrix();
+	glTranslatef(-1.0f, 0.6f, 0.0f);
+	glBegin(GL_QUADS);
+	glColor3f(0.011764705, 0.8, 0.99215686);
+
+	glVertex3f(0.3f, -0.2f, 0.0f);
+	glVertex3f(0.1f, -0.2f, 0.0f);
+	glVertex3f(0.1f, 0.0f, 0.0f);
+	glVertex3f(0.3f, 0.0f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.55f, 0.5f, 0.0f);
+	glBegin(GL_TRIANGLES);
+	glColor3f(0.949019607, 0.031372549, 0.850980392);
+
+	glVertex3f(0.0f, 0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-0.4f, 1.0f, 0.0f);
+	glBegin(GL_POLYGON);
+	glColor3f(0.2901960784, 0.956862745, 0.04313725);
+
+	for (double i = 0; i < 360.0; i += 9.0)
+	{
+		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
+	}
+
+	glEnd();
+	glPopMatrix();
+}
+
 void dibujar() {
 	glPushMatrix();
 
@@ -185,6 +265,7 @@ void dibujar() {
 	glPopMatrix();
 	dibujarLineas();
 	dibujarCuadros();
+	dibujarEnemigos();
 }
 
 int main()
