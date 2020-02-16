@@ -18,127 +18,137 @@ GLFWwindow* window;
 
 float posXTriangulo = 0.0f, posYTriangulo = 0.0f;
 double tiempoActual, tiempoAnterior;
-double velocidadTriangulo = 0.7;
-double angulo = 0.0f;
+double velocidadTriangulo = 0.5;
+float angulo = 0.0f;
 
-void teclado_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	//Establecer la funcion par responder a los eventos del teclado
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_RIGHT)
-	{
+void teclado_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_RIGHT) {
 		posXTriangulo += 0.01;
 	}
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_LEFT)
-	{
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_LEFT) {
 		posXTriangulo -= 0.01;
 	}
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_UP)
-	{
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_UP) {
 		posYTriangulo += 0.01;
 	}
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_DOWN)
-	{
+	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_DOWN) {
 		posYTriangulo -= 0.01;
-	}	
+	}
 }
 
-void actualizar()
-{
-
-	double velocidadRotacion = 80.0f;
-
-	if (angulo >= 360.0f)
-	{
-		angulo += 360.0f;
-	}	
+float compX;
+float compY;
+void actualizar() {
+	//posXTriangulo += 0.00001;
 
 	tiempoActual = glfwGetTime();
 	double tiempoDiferencial = tiempoActual - tiempoAnterior;
+	float velocidadAngular = 40.0f;
+
 	int estadoDerecha = glfwGetKey(window, GLFW_KEY_RIGHT);
-	if (estadoDerecha == GLFW_PRESS)
-	{
-		angulo -= velocidadRotacion * tiempoDiferencial;			
+	if (estadoDerecha == GLFW_PRESS) {
+		angulo -= velocidadAngular * tiempoDiferencial;
 	}
-
 	int estadoIzquierda = glfwGetKey(window, GLFW_KEY_LEFT);
-	if (estadoIzquierda == GLFW_PRESS)
-	{
-		angulo += velocidadRotacion * tiempoDiferencial;				
+	if (estadoIzquierda == GLFW_PRESS) {
+		angulo += velocidadAngular * tiempoDiferencial;
 	}
-
 	int estadoArriba = glfwGetKey(window, GLFW_KEY_UP);
-	if (estadoArriba == GLFW_PRESS)
-	{	//El 90 es la fase ej: tienes 50°, pero comportate como si tuvieras 40° mas
-		posXTriangulo += velocidadTriangulo * tiempoDiferencial * cos((angulo + 90.0) * 3.141592 / 180);
-		posYTriangulo += velocidadTriangulo * tiempoDiferencial * sin((angulo + 90.0) * 3.141592 / 180);
+	if (estadoArriba == GLFW_PRESS) {
+		compX = (cos((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
+		compY = (sin((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
 
-		if (posXTriangulo <= -1.08) 
-		{
-			posXTriangulo = 1.00;
-		}
-		else if (posXTriangulo >= 1.08) 
-		{
-			posXTriangulo = -1.00;
-		}
+		posXTriangulo += compX;
+		posYTriangulo += compY;
 
-		if (posYTriangulo <= -1.08)
-		{
-			posYTriangulo = 1.00;
-		}
-		else if (posYTriangulo >= 1.08)
-		{
-			posYTriangulo = -1.00;
-		}
+
 	}
-
-	/*int estadoAbajo = glfwGetKey(window, GLFW_KEY_DOWN);
-	if (estadoAbajo == GLFW_PRESS)
-	{
-		posYTriangulo -= velocidadTriangulo * tiempoDiferencial;
-	}*/
-
 	tiempoAnterior = tiempoActual;
-	
 }
- 
-void dibujar()
-{
+void dibujarTriangulos() {
 	glPushMatrix();
+
 	glTranslatef(posXTriangulo, posYTriangulo, 0.0f);
 	glRotatef(angulo, 0.0f, 0.0f, 1.0f);
 	glScalef(0.4f, 0.7f, 0.7f);
 
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0, 1.0, 1.0);
-
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.15f, -0.15f, 0.0f);
-	glVertex3f(0.15f, -0.15f, 0.0f);
+	glVertex3f(0.0f, -0.8f, 0.0f);
+	glVertex3f(-0.12f, -1.2f, 0.0f);
+	glVertex3f(0.12f, -1.2f, 0.0f);
 
 	glEnd();
-	glPopMatrix();
 
+	glPopMatrix();
+}
+void dibujarCuadros() {
+	glBegin(GL_QUADS);
+
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(0.2f, -0.85f, 0.0f);
+	glVertex3f(-0.2f, -0.85f, 0.0f);
+	glVertex3f(-0.2f, -1.0f, 0.0f);
+	glVertex3f(0.2f, -1.0f, 0.0f);
+
+	glEnd();
+}
+
+void dibujarLineas() {
+	//estrellas
+	glBegin(GL_LINES);
+
+	//1
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(0.0f, 0.05f, 0.0f);
+	glVertex3f(0.0f, -0.05f, 0.0f);
+	glVertex3f(-0.05f, 0.0f, 0.0f);
+	glVertex3f(0.05f, 0.0f, 0.0f);
+
+	glVertex3f(-0.04f, 0.04f, 0.0f);
+	glVertex3f(0.04f, -0.04f, 0.0f);
+	glVertex3f(0.04f, 0.04f, 0.0f);
+	glVertex3f(-0.04f, -0.04f, 0.0f);
+
+	//2
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(0.3f, 0.35f, 0.0f);
+	glVertex3f(0.3f, 0.25f, 0.0f);
+	glVertex3f(0.35f, 0.3f, 0.0f);
+	glVertex3f(0.25f, 0.3f, 0.0f);
+
+	glVertex3f(0.34f, 0.34f, 0.0f);
+	glVertex3f(0.26f, 0.26f, 0.0f);
+	glVertex3f(0.26f, 0.34f, 0.0f);
+	glVertex3f(0.34f, 0.26f, 0.0f);
+
+	glEnd();
+}
+
+
+void dibujar() {
 	glPushMatrix();
-	glTranslatef(-0.3f, -1.0f, 0.0f);
-	glScalef(0.5f, 0.5f, 0.0f);
 
-	glBegin(GL_QUADS);	
+	glTranslatef(posXTriangulo, posYTriangulo, 0.0f);
+	glRotatef(angulo, 0.0f, 0.0f, 1.0f);
+	glScalef(0.4f, 0.7f, 0.7f);
 
-	glVertex3f(0.95f, 0.2f, 0.0f);
-	glVertex3f(0.15f, 0.2f, 0.0f);
-	glVertex3f(0.15f, -0.2f, 0.0f);
-	glVertex3f(0.95f, -0.2f, 0.0f);
-		
-	
-	
+	glBegin(GL_TRIANGLES);
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(0.0f, -0.8f, 0.0f);
+	glVertex3f(-0.12f, -1.2f, 0.0f);
+	glVertex3f(0.12f, -1.2f, 0.0f);
+
 	glEnd();
-	
+
 	glPopMatrix();
-	
+	dibujarCuadros();
+	dibujarLineas();
 }
 
 int main()
-{  
+{
+
 	//Si no se pudo iniciar GLFW terminamos ejecucion
 	if (!glfwInit())
 	{
@@ -156,20 +166,18 @@ int main()
 	//Establecemos la ventana como contexto
 	glfwMakeContextCurrent(window);
 
-	//Una vez establecido el contexto, se activan las funciones "modernas" (gpu)
+	//Una vez establecido el contexto se activan las funciones "modernas" (gpu)
 	glewExperimental = true;
 
 	GLenum errores = glewInit();
-	if (errores != GLEW_OK)
-	{
+	if (errores != GLEW_OK) {
 		glewGetErrorString(errores);
 	}
 
 	const GLubyte* versionGL = glGetString(GL_VERSION);
-
 	cout << "Version OpenGL: " << versionGL;
 
-	//Establecemos que con cada evento de teclado, se llama a la función teclado_callback
+	//Establecemos que con cada evento de teclado se llama a la funcion teclado_callback
 	//glfwSetKeyCallback(window, teclado_callback);
 
 	tiempoActual = glfwGetTime();
@@ -188,14 +196,11 @@ int main()
 		//Actualizar valores y dibujar
 		actualizar();
 		dibujar();
-			
 
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
-	//Despues del ciclo de dibujo, eliminamos venta y procesos de glfw
+	//Despues del ciclo de dibujo, eliminamos ventana y procesos de glfw
 	glfwDestroyWindow(window);
 	glfwTerminate();
 }
-
-
