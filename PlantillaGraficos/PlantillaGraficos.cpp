@@ -75,6 +75,16 @@ void dibujarCuadros() {
 	glVertex3f(0.2f, -1.0f, 0.0f);
 
 	glEnd();
+
+	glBegin(GL_QUADS);
+
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(0.1f, -0.65f, 0.0f);
+	glVertex3f(-0.1f, -0.65f, 0.0f);
+	glVertex3f(-0.1f, -0.85f, 0.0f);
+	glVertex3f(0.1f, -0.85f, 0.0f);
+
+	glEnd();
 }
 
 void dibujarLineas() {
