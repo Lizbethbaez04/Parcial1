@@ -275,7 +275,7 @@ void dibujarEnemigos()
 
 	//Linea de abajo
 	glPushMatrix();
-	glTranslatef(-0.9f, 0.6f, 0.0f);
+	glTranslatef(-0.95f, 0.6f, 0.0f);
 	glBegin(GL_QUADS);
 	glColor3f(0.011764705, 0.8, 0.99215686);
 
@@ -327,7 +327,7 @@ void dibujarEnemigos()
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(-0.65f, 0.3f, 0.0f);
+	glTranslatef(-0.35f, 0.3f, 0.0f);
 	glBegin(GL_QUADS);
 	glColor3f(0.011764705, 0.8, 0.99215686);
 
@@ -340,7 +340,7 @@ void dibujarEnemigos()
 	glPopMatrix();
 
 	glPushMatrix();
-	glTranslatef(0.3f, 0.2f, 0.0f);
+	glTranslatef(0.4f, 0.2f, 0.0f);
 	glBegin(GL_TRIANGLES);
 	glColor3f(0.949019607, 0.031372549, 0.850980392);
 
