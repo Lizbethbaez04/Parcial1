@@ -20,6 +20,7 @@ float posXTriangulo = 0.0f, posYTriangulo = 0.0f;
 double tiempoActual, tiempoAnterior;
 double velocidadTriangulo = 0.5;
 float angulo = 0.0f;
+int i = 0;
 
 void teclado_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_RIGHT) {
@@ -43,7 +44,7 @@ void actualizar() {
 
 	tiempoActual = glfwGetTime();
 	double tiempoDiferencial = tiempoActual - tiempoAnterior;
-	float velocidadAngular = 40.0f;
+	float velocidadAngular = 100.0f;
 
 	int estadoDerecha = glfwGetKey(window, GLFW_KEY_RIGHT);
 	if (estadoDerecha == GLFW_PRESS) {
@@ -54,12 +55,15 @@ void actualizar() {
 		angulo += velocidadAngular * tiempoDiferencial;
 	}
 	int estadoArriba = glfwGetKey(window, GLFW_KEY_UP);
-	if (estadoArriba == GLFW_PRESS) {
+	if (estadoArriba == GLFW_PRESS || i == 1) {
+		i = 1;
 		compX = (cos((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
 		compY = (sin((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
 
 		posXTriangulo += compX;
 		posYTriangulo += compY;
+
+
 	}
 	
 	tiempoAnterior = tiempoActual;
@@ -250,15 +254,16 @@ void dibujarEnemigos()
 void dibujar() {
 	glPushMatrix();
 
+	glTranslatef(-0.0f, -0.7f, 0.0f);
 	glTranslatef(posXTriangulo, posYTriangulo, 0.0f);
 	glRotatef(angulo, 0.0f, 0.0f, 1.0f);
 	glScalef(0.4f, 0.6f, 0.7f);
 
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(0.0f, 0.15f, 0.0f);
-	glVertex3f(-0.15f, -0.15f, 0.0f);
-	glVertex3f(0.15f, -0.15f, 0.0f);
+	glVertex3f(0.0f, 0.30f, 0.0f);
+	glVertex3f(-0.15f, -0.0f, 0.0f);
+	glVertex3f(0.15f, -0.0f, 0.0f);
 
 	glEnd();
 
