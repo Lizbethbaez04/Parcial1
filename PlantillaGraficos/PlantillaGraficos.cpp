@@ -57,18 +57,18 @@ void actualizar() {
 		}
 		lado = 2;
 		//angulo -= velocidadAngular * tiempoDiferencial;
-		
+
 	}
-	
+
 	if (estadoIzquierda == GLFW_PRESS) {
 		if (lado == 2 || lado == 0) {
 			angulo += velocidadAngular * tiempoDiferencial;
 		}
 		lado = 1;
 		//angulo += velocidadAngular * tiempoDiferencial;
-		
+
 	}
-	
+
 	if (estadoArriba == GLFW_PRESS && estadoAbajo != GLFW_PRESS) {
 		compX = (cos((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
 		compY = (sin((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
@@ -77,7 +77,7 @@ void actualizar() {
 		{
 			angulo += velocidadGiroExtra * tiempoDiferencial;
 		}
-		else if(angulo > 0 && lado ==2) {
+		else if (angulo > 0 && lado == 2) {
 			angulo -= velocidadGiroExtra * tiempoDiferencial;
 		}
 		if (angulo < 0 && lado == 2) {
@@ -98,7 +98,7 @@ void actualizar() {
 		posYTriangulo += compY;
 	}
 
-	
+
 	if (estadoAbajo == GLFW_PRESS && estadoArriba != GLFW_PRESS) {
 		compX = -(cos((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
 		compY = -(sin((angulo + 90.0) * 3.14159 / 180.0)) * (velocidadTriangulo * tiempoDiferencial);
