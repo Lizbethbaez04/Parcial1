@@ -115,6 +115,7 @@ void dibujarLineas() {
 	glVertex3f(0.26f, 0.34f, 0.0f);
 	glVertex3f(0.34f, 0.26f, 0.0f);
 
+
 	//3
 	glColor3f(1.0, 1.0, 1.0);
 	glVertex3f(-0.2f, -0.15f, 0.0f);
@@ -147,9 +148,9 @@ void dibujarLineas() {
 	glVertex3f(0.65f, -0.6f, 0.0f);
 
 	glVertex3f(0.64f, -0.64f, 0.0f);
-	glVertex3f(0.54f, -0.54f, 0.0f);
-	glVertex3f(0.54f, -0.64f, 0.0f);
-	glVertex3f(0.64f, -0.54f, 0.0f);
+	glVertex3f(0.56f, -0.56f, 0.0f);
+	glVertex3f(0.56f, -0.64f, 0.0f);
+	glVertex3f(0.64f, -0.56f, 0.0f);
 
 	//6
 	glColor3f(1.0, 1.0, 1.0);
@@ -162,6 +163,34 @@ void dibujarLineas() {
 	glVertex3f(-0.66f, -0.66f, 0.0f);
 	glVertex3f(-0.74f, -0.66f, 0.0f);
 	glVertex3f(-0.66f, -0.74f, 0.0f);
+
+	//7
+	//parado
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(-0.6f, -0.05f, 0.0f);
+	glVertex3f(-0.6f, 0.05f, 0.0f);
+	//acostado
+	glVertex3f(-0.65f, 0.0f, 0.0f);
+	glVertex3f(-0.55f, 0.0f, 0.0f);
+
+	glVertex3f(-0.64f, -0.04f, 0.0f);
+	glVertex3f(-0.56f, 0.04f, 0.0f);
+	glVertex3f(-0.56f, -0.04f, 0.0f);
+	glVertex3f(-0.64f, 0.04f, 0.0f);
+
+	//8
+	//izquierda
+	glColor3f(1.0, 1.0, 1.0);
+	glVertex3f(0.6f, -0.15f, 0.0f);
+	glVertex3f(0.6f, -0.05f, 0.0f);
+	//derecha
+	glVertex3f(0.55f, -0.1f, 0.0f);
+	glVertex3f(0.65f, -0.1f, 0.0f);
+
+	glVertex3f(0.64f, -0.14f, 0.0f);
+	glVertex3f(0.56f, -0.06f, 0.0f);
+	glVertex3f(0.56f, -0.14f, 0.0f);
+	glVertex3f(0.64f, -0.06f, 0.0f);
 
 
 	glEnd();
