@@ -16,18 +16,56 @@ using namespace std;
 //Declarar una ventana
 GLFWwindow* window;
 
-float posXTriangulo = 0.0f, posYTriangulo = 0.0f;
+//tiempo limite
+double tiempoLimite = 14;
+
+//posicion inicial del triangulo
+float posXTriangulo = 0.0f, posYTriangulo = -0.6f;
+
+///enemigos coordenadas
+//Linea 1
+float posXenemigo1 = -0.8f, posYenemigo1 = -0.2f;
+float posXenemigo2 = -0.45f, posYenemigo2 = -0.2f;
+float posXenemigo3 = -0.15f, posYenemigo3 = -0.2f;
+float posXenemigo4 = 0.15f, posYenemigo4 = -0.2f;
+float posXenemigo5 = 0.45f, posYenemigo5 = -0.2f;
+float posXenemigo6 = 0.8f, posYenemigo6 = -0.2f;
+//Linea 2
+float posXenemigo7 = -0.8f, posYenemigo7 = 0.3f;
+float posXenemigo8 = -0.50f, posYenemigo8 = 0.3f;
+float posXenemigo9 = -0.185f, posYenemigo9 = 0.3f;
+float posXenemigo10 = 0.185f, posYenemigo10 = 0.3f;
+float posXenemigo11 = 0.50f, posYenemigo11 = 0.3f;
+float posXenemigo12 = 0.8f, posYenemigo12 = 0.3f;
+//Linea 3
+float posXenemigo13 = -0.8f, posYenemigo13 = 0.8f;
+float posXenemigo14 = -0.40f, posYenemigo14 = 0.8f;
+float posXenemigo15 = -0.10f, posYenemigo15 = 0.8f;
+float posXenemigo16 = 0.20f, posYenemigo16 = 0.8f;
+float posXenemigo17 = 0.5f, posYenemigo17 = 0.8f;
+float posXenemigo18 = 0.8f, posYenemigo18 = 0.8f;
+
+///Salida
+float posXsalida = -0.6f, posYsalida = 1.06f;
+
 double tiempoActual, tiempoAnterior;
 double velocidadTriangulo = 0.5;
 float angulo = 0.0f;
+//direccion en la que gira la nave
 int lado = 0;
+//cantidad de cuanto gira la nave
 float velocidadGiroExtra = 80;
 
+
 void teclado_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_RIGHT) {
-		posXTriangulo += 0.01;
+	if ((action == GLFW_PRESS) && key == GLFW_KEY_SPACE || key == GLFW_KEY_R) {
+		posXTriangulo = 0.0;
+		posYTriangulo = -0.6;
+		angulo = 0.0;
+		lado = 0;
+		glfwSetTime(0);
 	}
-	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_LEFT) {
+	/*if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_LEFT) {
 		posXTriangulo -= 0.01;
 	}
 	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_UP) {
@@ -35,15 +73,343 @@ void teclado_callback(GLFWwindow* window, int key, int scancode, int action, int
 	}
 	if ((action == GLFW_PRESS || action == GLFW_REPEAT) && key == GLFW_KEY_DOWN) {
 		posYTriangulo -= 0.01;
-	}
+	}*/
 }
 
 float compX;
 float compY;
+
+void checarColisiones(double tiempo)
+{
+	if (
+		/////////Linea 1
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo1 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo1 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo1 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo1 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo2 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo2 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo2 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo2 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo3 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo3 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo3 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo3 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo4 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo4 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo4 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo4 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo5 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo5 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo5 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo5 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo6 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo6 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo6 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo6 + 0.10f
+
+		||
+		/////////Linea 2
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo7 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo7 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo7 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo7 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo8 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo8 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo8 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo8 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo9 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo9 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo9 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo9 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo10 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo10 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo10 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo10 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo11 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo11 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo11 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo11 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo12 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo12 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo12 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo12 + 0.10f
+
+		||
+
+		/////////Linea 3
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo13 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo13 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo13 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo13 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo14 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo14 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo14 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo14 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo15 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo15 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo15 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo15 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo16 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo16 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo16 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo16 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo17 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo17 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo17 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo17 + 0.10f
+
+		||
+
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXenemigo18 - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXenemigo18 + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYenemigo18 - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYenemigo18 + 0.10f
+
+		||
+
+		posXTriangulo - 0.05f < -1
+
+		||
+
+		posXTriangulo + 0.05f > 1
+
+		||
+
+		posYTriangulo - 0.07f < -1
+
+		||
+
+		tiempo >= tiempoLimite
+		)
+	{
+		posXTriangulo = 0.0;
+		posYTriangulo = -0.6;
+		angulo = 0.0;
+		lado = 0;
+		glfwSetTime(0);
+	}
+	if (
+		//Orilla derecha del triangulo es mayor que
+		//la orilla izquierda del cuadrado
+		posXTriangulo + 0.05f >= posXsalida - 0.10f &&
+		//Orilla izquierda del triangulo es menor que
+		//la orilla derecha del cuadrado
+		posXTriangulo - 0.05f <= posXsalida + 0.10f &&
+		//Orilla superior triangulo mayor que
+		//la orilla inferior del cuadrado
+		posYTriangulo + 0.07f >= posYsalida - 0.10f &&
+		//Orilla inferior triangulo menor que
+		//la orilla superior del cuadrado
+		posYTriangulo - 0.05f <= posYsalida + 0.10f
+		)
+	{
+		exit(0);
+	}
+
+}
+
+//Movimiento de la nave
 void actualizar() {
-	//posXTriangulo += 0.00001;
 
 	tiempoActual = glfwGetTime();
+	if (tiempoActual >= tiempoLimite)
+	{
+		checarColisiones(tiempoActual);
+		glfwSetTime(0);
+	}
+	
+	checarColisiones(tiempoActual);
+
 	double tiempoDiferencial = tiempoActual - tiempoAnterior;
 	float velocidadAngular = 100.0f;
 
@@ -131,6 +497,7 @@ void actualizar() {
 	tiempoAnterior = tiempoActual;
 }
 
+//Lanzareda donde despega la nave
 void dibujarCuadros() {
 	glBegin(GL_QUADS);
 
@@ -153,6 +520,7 @@ void dibujarCuadros() {
 	glEnd();
 }
 
+//Estrellas
 void dibujarLineas() {
 	//estrellas
 	glBegin(GL_LINES);
@@ -261,327 +629,333 @@ void dibujarLineas() {
 	glEnd();
 }
 
+//Enemigos
 void dibujarEnemigos()
-{	//Primera Linea
-     glPushMatrix();
-	glTranslatef(-0.8f, 0.8f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.9294117647, 0.9725490196, 0.0235294117);
+{	
+		//linea 1
 
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
+	//enemigo 1
+	glPushMatrix();
+
+	glTranslatef(posXenemigo1, posYenemigo1, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
 	glVertex3f(0.1f, -0.1f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.65f, 1.3f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.04313725, 0.12549019, 0.95686274);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.15f, 0.9f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.9529411764, 0.5529411764, 0.0431372549);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.3f, 0.8f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.9294117647, 0.9725490196, 0.0235294117);
-
-	glVertex3f(0.0f, 0.1f, 0.0f);
 	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 2
+	glPushMatrix();
+
+	glTranslatef(posXenemigo2, posYenemigo2, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
 	glVertex3f(0.1f, -0.1f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.45f, 1.3f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.04313725, 0.12549019, 0.95686274);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.6f, 0.9f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.9529411764, 0.5529411764, 0.0431372549);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-
-	//Segunda Linea
-	glPushMatrix();
-	glTranslatef(-1.0f, 0.59f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	
-
-	glPushMatrix();
-	glTranslatef(0.7f, 1.0f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.2901960784, 0.956862745, 0.04313725);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-
-	//Tercera linea
-
-	glPushMatrix();
-	glTranslatef(-0.9f, 0.7f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.2901960784, 0.956862745, 0.04313725);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.35f, 0.3f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.0f, 0.7f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.2901960784, 0.956862745, 0.04313725);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.15f, 0.3f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.8f, 0.2f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.949019607, 0.031372549, 0.850980392);
-
-	glVertex3f(0.0f, 0.1f, 0.0f);
 	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.1f, -0.1f, 0.0f);
 
 	glEnd();
 	glPopMatrix();
 
-	//Cuarta linea
+	//enemigo 3
 	glPushMatrix();
-	glTranslatef(-0.8f, -0.1f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.949019607, 0.031372549, 0.850980392);
 
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.1f, -0.1f, 0.0f);
+	glTranslatef(posXenemigo3, posYenemigo3, 0.0f);
 
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.25f, 0.4f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.2901960784, 0.956862745, 0.04313725);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.2f, -0.1f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.949019607, 0.031372549, 0.850980392);
-
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.1f, -0.1f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.6f, 0.0f, 0.0f);
 	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
 
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	//Quinta Linea
-	glPushMatrix();
-	glTranslatef(-1.0f, -0.3f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(0.8f, -0.4f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.949019607, 0.031372549, 0.850980392);
-
-	glVertex3f(0.0f, 0.1f, 0.0f);
-	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
 	glVertex3f(0.1f, -0.1f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
-	//Sexta Linea
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.9f, -0.2f, 0.0f);
-	glBegin(GL_POLYGON);
-	glColor3f(0.2901960784, 0.956862745, 0.04313725);
-
-	for (double i = 0; i < 360.0; i += 9.0)
-	{
-		glVertex3f((0.1 * cos(i * 3.14159 / 180.0)) + 0.1, (0.1 * sin(i * 3.14159 / 180.0)) - 0.5, 0.0f);
-	}
-
-	glEnd();
-	glPopMatrix();
-
-	glPushMatrix();
-	glTranslatef(-0.7f, -0.6f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
-
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-	glPushMatrix();
-	glTranslatef(0.5f, -0.7f, 0.0f);
-	glBegin(GL_TRIANGLES);
-	glColor3f(0.949019607, 0.031372549, 0.850980392);
-
-	glVertex3f(0.0f, 0.1f, 0.0f);
 	glVertex3f(-0.1f, -0.1f, 0.0f);
-	glVertex3f(0.1f, -0.1f, 0.0f);
 
 	glEnd();
 	glPopMatrix();
 
+	//enemigo 4
 	glPushMatrix();
-	glTranslatef(0.6f, -0.6f, 0.0f);
-	glBegin(GL_QUADS);
-	glColor3f(0.011764705, 0.8, 0.99215686);
 
-	glVertex3f(0.3f, -0.2f, 0.0f);
-	glVertex3f(0.1f, -0.2f, 0.0f);
-	glVertex3f(0.1f, 0.0f, 0.0f);
-	glVertex3f(0.3f, 0.0f, 0.0f);
+	glTranslatef(posXenemigo4, posYenemigo4, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
 
 	glEnd();
 	glPopMatrix();
 
+	//enemigo 5
+	glPushMatrix();
+
+	glTranslatef(posXenemigo5, posYenemigo5, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 6
+	glPushMatrix();
+
+	glTranslatef(posXenemigo6, posYenemigo6, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+		//linea 2
+
+	//enemigo 1-7
+	glPushMatrix();
+
+	glTranslatef(posXenemigo7, posYenemigo7, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 2-8
+	glPushMatrix();
+
+	glTranslatef(posXenemigo8, posYenemigo8, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 3-9
+	glPushMatrix();
+
+	glTranslatef(posXenemigo9, posYenemigo9, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 4-10
+	glPushMatrix();
+
+	glTranslatef(posXenemigo10, posYenemigo10, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 5-11
+	glPushMatrix();
+
+	glTranslatef(posXenemigo11, posYenemigo11, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 6-12
+	glPushMatrix();
+
+	glTranslatef(posXenemigo12, posYenemigo12, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+		//Linea 3
+
+	//enemigo 1-13
+	glPushMatrix();
+
+	glTranslatef(posXenemigo13, posYenemigo13, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 2-14
+	glPushMatrix();
+
+	glTranslatef(posXenemigo14, posYenemigo14, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 3-15
+	glPushMatrix();
+
+	glTranslatef(posXenemigo15, posYenemigo15, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 4-16
+	glPushMatrix();
+
+	glTranslatef(posXenemigo16, posYenemigo16, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 5-17
+	glPushMatrix();
+
+	glTranslatef(posXenemigo17, posYenemigo17, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//enemigo 6-18
+	glPushMatrix();
+
+	glTranslatef(posXenemigo18, posYenemigo18, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.7, 0.2, 0.5);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
+	//Salida
+	glPushMatrix();
+
+	glTranslatef(posXsalida, posYsalida, 0.0f);
+
+	glBegin(GL_QUADS);
+
+	glColor3f(0.0, 0.7, 0.0);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, 0.1f, 0.0f);
+	glVertex3f(0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
 
 }
 
+//Nave
 void dibujar() {
 	glPushMatrix();
 
-	glTranslatef(-0.0f, -0.7f, 0.0f);
 	glTranslatef(posXTriangulo, posYTriangulo, 0.0f);
 	glRotatef(angulo, 0.0f, 0.0f, 1.0f);
-	glScalef(0.4f, 0.6f, 0.7f);
 
 	glBegin(GL_TRIANGLES);
 	glColor3f(1.0, 1.0, 1.0);
-	glVertex3f(0.0f, 0.30f, 0.0f);
-	glVertex3f(-0.15f, -0.0f, 0.0f);
-	glVertex3f(0.15f, -0.0f, 0.0f);
+	glVertex3f(0.0f, 0.07f, 0.0f);
+	glVertex3f(-0.05f, -0.05f, 0.0f);
+	glVertex3f(0.05f, -0.05f, 0.0f);
 
 	glEnd();
 
@@ -623,7 +997,7 @@ int main()
 	cout << "Version OpenGL: " << versionGL;
 
 	//Establecemos que con cada evento de teclado se llama a la funcion teclado_callback
-	//glfwSetKeyCallback(window, teclado_callback);
+	glfwSetKeyCallback(window, teclado_callback);
 
 	tiempoActual = glfwGetTime();
 	tiempoAnterior = tiempoActual;
